@@ -49,10 +49,8 @@ public class MongoCrud extends Thread{
 		mongoLogger.setLevel(Level.SEVERE);
 		List<Document> updateData = prepDocs(csvDmList);		
 		collection.insertMany(updateData);
-		System.out.println("Updated db...");
-		getDocsPresent("13579",csvDmList.get(0));
-		Notifier n = new Notifier();
-		//n.sendNotification("dd", "dd");
+		System.out.println("Updating db with the latest file...");
+		
 	}
 	
 	private List<Document> prepDocs(List<csvDataModel> csvDmList){
@@ -68,16 +66,5 @@ public class MongoCrud extends Thread{
 		return docList;
 	}
 	
-	private void getDocsPresent(String pid,csvDataModel cdm){
-		MongoDatabase db = m.getDatabase("proto");
-		MongoCollection<Document> collection = db.getCollection("products");
-		FindIterable<Document> iterable = collection.find(
-		        new Document("pid", pid));
-		for (Document document : iterable) {
-			Document dn = (Document)document.get("dtl");
-			if(dn.get("title") != null)
-			System.out.println(dn.get("title"));
-		}
-	}
 	
 }
