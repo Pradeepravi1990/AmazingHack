@@ -25,6 +25,14 @@ public class AppCli extends Thread{
 					if(inp.equalsIgnoreCase("1")){
 						System.out.println("> <Subscirber mail ID> : <category> : < match operation > : value");
 						System.out.println("> Example@yahoo.com : author : = : Rowlling ");
+						String query = as.nextLine();
+						String[] qsplit = query.split(":");
+						if(qsplit.length < 4){
+							System.out.println("Specify a valid input");
+						}else{
+							FindData fd = new FindData();
+							fd.insertQuery(query);
+						}
 					}else if(inp.equalsIgnoreCase("2")){
 						System.out.println(" Enter a valid id Eg : 13579");
 						String path = as.nextLine();

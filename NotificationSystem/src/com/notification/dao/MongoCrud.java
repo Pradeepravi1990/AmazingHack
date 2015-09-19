@@ -1,6 +1,7 @@
 package com.notification.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.logging.Level;
@@ -22,7 +23,10 @@ public class MongoCrud extends Thread{
 	String textUri = "mongodb://admin:1234@ds043981.mongolab.com:43981/proto";
 	MongoClient m;
 	public ArrayBlockingQueue<List<csvDataModel>> store = new ArrayBlockingQueue<List<csvDataModel>>(100);
+	public HashMap<String, String> change = new HashMap<String, String>();
 	public void run(){
+		Logger mongoLogger = Logger.getLogger( "org.mongodb.driver" );
+	    mongoLogger.setLevel(Level.SEVERE); 
 		MongoClientURI uri = new MongoClientURI(textUri);
 		m = new MongoClient(uri);
 		while(true){
@@ -42,12 +46,13 @@ public class MongoCrud extends Thread{
 	}
 	
 	public void connectUpdate(List<csvDataModel> csvDmList){
+		
 		MongoDatabase db = m.getDatabase("proto");
 		MongoCollection<Document> collection = db.getCollection("products");
-		Logger mongoLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-		System.out.println(Logger.GLOBAL_LOGGER_NAME);
-		mongoLogger.setLevel(Level.SEVERE);
-		List<Document> updateData = prepDocs(csvDmList);		
+		List<Document> updateData = prepDocs(csvDmList);
+		for (Document document : updateData) {
+			saveChange(document);
+		}		
 		collection.insertMany(updateData);
 		System.out.println("Updating db with the latest file...");
 		
@@ -65,6 +70,16 @@ public class MongoCrud extends Thread{
 		}
 		return docList;
 	}
+	
+	public void saveChange(Document chkDocument){
+		FindData fd = new FindData();
+		FindIterable<Document>  ad = fd.retDocsPresent(chkDocument.get("pid").toString());
+		fd.retqueries();
+		for (Document document : ad) {
+			System.out.println(document);
+		}
+	}
+	
 	
 	
 }
