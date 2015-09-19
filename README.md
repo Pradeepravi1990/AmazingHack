@@ -1,7 +1,7 @@
 # AmazingHack
 Problem 1 amazing hack
 
-STANDALONE JAVA APPLICATION
+STANDALONE JAVA APPLICATION - ( Use the jar in the DIST folder )
 
 This is a standalone java application with a CLI for interacting with the application
 
