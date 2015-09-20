@@ -70,17 +70,32 @@ public class MongoCrud extends Thread{
 		}
 		return docList;
 	}
-	
+	int c =0;
+	ArrayList<String> skeys = new ArrayList<String>();
 	public void saveChange(Document chkDocument){
 		FindData fd = new FindData();
 		Document dmc = (Document)chkDocument.get("dtl");
+		
 		FindIterable<Document>  ad = fd.retDocsPresent(chkDocument.get("pid").toString());
+		if(c==0){
+		for (Document document : fd.retqueries()) {
+			String[] ds = document.get("cond").toString().split(":");
+			skeys.add(document.get("cond").toString()+"-"+ds[1]);
+		}
+		c++;
+		}
 		for (Document document : ad) {
 			Document dmn = (Document)document.get("dtl");			
 				String[] ck1 = dmn.toString().split("=");
 				String[] ck2 = dmc.toString().split("=");
 				if(ck1[0].equalsIgnoreCase(ck2[0]) && !ck1[1].equalsIgnoreCase(ck2[1]) ){
-				System.out.println("change found! Sending notification for : " + chkDocument);
+				for (String string : skeys) {
+					String att[] = string.split("-");
+					String mail[] = string.split(":");
+					if(chkDocument.get("dtl").toString().contains(att[1]))
+					System.out.println("change found! Sending notification for : " + chkDocument.get("dtl")+" to "+mail[0]);
+
+				}
 				}
 		}
 	}
