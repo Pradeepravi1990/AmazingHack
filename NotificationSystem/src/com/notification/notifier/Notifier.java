@@ -34,14 +34,13 @@ public class Notifier {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("happywork24@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("karavi.pradeep@gmail.com"));
-			message.setSubject("Testing Subject");
-			message.setText("Dear Mail Crawler," +
-					"\n\n No spam to my email, please!");
+					InternetAddress.parse(mailId));
+			message.setSubject("Update ");
+			message.setText("notification");
 
 			Transport.send(message);
 
-			System.out.println("Done");
+			System.out.println("Sent notification to - "+mailId+" -Done");
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);

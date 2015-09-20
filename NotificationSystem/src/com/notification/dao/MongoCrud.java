@@ -73,10 +73,15 @@ public class MongoCrud extends Thread{
 	
 	public void saveChange(Document chkDocument){
 		FindData fd = new FindData();
+		Document dmc = (Document)chkDocument.get("dtl");
 		FindIterable<Document>  ad = fd.retDocsPresent(chkDocument.get("pid").toString());
-		fd.retqueries();
 		for (Document document : ad) {
-			System.out.println(document);
+			Document dmn = (Document)document.get("dtl");			
+				String[] ck1 = dmn.toString().split("=");
+				String[] ck2 = dmc.toString().split("=");
+				if(ck1[0].equalsIgnoreCase(ck2[0]) && !ck1[1].equalsIgnoreCase(ck2[1]) ){
+				System.out.println("change found! Sending notification for : " + chkDocument);
+				}
 		}
 	}
 	

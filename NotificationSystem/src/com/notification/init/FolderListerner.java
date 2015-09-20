@@ -32,7 +32,6 @@ public class FolderListerner extends TimerTask {
 			System.out.println("> invalid folder name or access to the path might be denied");
 			System.out.println("> please check and redo");
 		} else {
-			if (files.length != filesChecked.size()) {
 				for (File file : files) {
 					if (file.isFile()) {
 						if (!filesChecked.contains(file.getPath())) {
@@ -49,9 +48,9 @@ public class FolderListerner extends TimerTask {
 						}
 					}
 				}
-			} else {
+			
 				System.out.println(">>> - Checking Shared folder status - up to date");
-			}
+			
 		}
 	}
 	
@@ -70,7 +69,7 @@ public class FolderListerner extends TimerTask {
 	    	    inStream.close();
 	    	    outStream.close();	    	    
 	    	    afile.delete();	    	    
-	    	    System.out.println("File is movedl successful!");
+	    	    System.out.println("File moved to dump location!");
 	    	    
 	    	}catch(IOException e){
 	    	    e.printStackTrace();

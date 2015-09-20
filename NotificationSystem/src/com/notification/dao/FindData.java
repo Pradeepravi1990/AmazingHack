@@ -73,8 +73,7 @@ public class FindData {
 		MongoCollection<Document> collection = db.getCollection("products");
 		Document d = new Document();
 		d.put("pid", "-1");
-		Document atr1  = new Document();
-		d.append("cond",atr1);
+		d.append("cond",a);
 		collection.insertOne(d);		
 		m.close();
 	}
